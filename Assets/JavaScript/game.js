@@ -16,12 +16,12 @@ var userGuessWrong = [];  //Array for inocorrectly guessed letters
 var underScore = [];  //Array for storing blank spaces, # based on chosen word length
 var wins = 0;  //Wins Counter
 var losses = 0;  //Losses Counter
+document.getElementById("totalWins").innerHTML = "Total Wins: " + wins;
+document.getElementById("totalLosses").innerHTML = "Total Losses: " + losses;
 
 //
 // Computer displays blank spaces to match length of chosen word
 //
-console.log(chosenWord);
-
 function makeBlanks() {
   for (var i = 0; i < wordLength; i++) {
     underScore.push("_");
@@ -29,14 +29,37 @@ function makeBlanks() {
   return underScore;
 };
 
+// 
+// Reset the game to initial state
+// 
+function resetGame() {
+  randGen = Math.floor(Math.random() * gameWords.length);
+  chosenWord = gameWords[randGen];
+  maxTries = 10;
+  wordLength = chosenWord.length;
+  userGuessCorrect = [];
+  userGuessWrong = [];
+  underScore = [];  
+  document.getElementById("totalWins").innerHTML = "Total Wins: " + wins;
+  document.getElementById("totalLosses").innerHTML = "Total Losses: " + losses;
+  makeBlanks();
+  document.getElementById("currentWord").innerHTML = underScore.join(" ");
+}
+
+// 
+// User guesses the chosen word
+// 
 function gameWin() {
   wins++;
   document.getElementById("gameEnd").innerHTML = "FAR OUT MAN!";
-  var audioLose = new Audio();
-  audioLose.src = "./Assets/Sounds/LikeStyle.mp3";
-  audioLose.play();  
+  var audioWin = new Audio();
+  audioWin.src = "./Assets/Sounds/LikeStyle.mp3";
+  audioWin.play();
 }
 
+// 
+// User does not guess the chosen word
+// 
 function gameOver() {
   losses++;
   document.getElementById("gameEnd").innerHTML = "OVER THE LINE!!!";
@@ -70,6 +93,7 @@ document.onkeydown = function (event) {
         underScore[i] = keyLittle.toUpperCase();
         if (underScore.indexOf("_") < 0) {
           gameWin();
+          resetGame();
         }
       }
     }
@@ -79,24 +103,11 @@ document.onkeydown = function (event) {
     if (userGuessWrong.indexOf(keyLittle) < 0 && maxTries > 0 && underScore.indexOf("_") >= 0) {
       userGuessWrong.push(keyLittle);
       maxTries--;
-      console.log(userGuessWrong);
       if (maxTries === 0) {
         gameOver();
+        resetGame();
       }
-      console.log(maxTries);
-    }
-  }
-  
+    }   
+  }  
   document.getElementById("guessedLetters").innerHTML = userGuessWrong.join(" ");
-
 };
-
-
-
-
-
-
-// If correct, replace blank space with letter
-// If incorrect, place letter in incorrect bank
-// If word is completed by user, increment wins
-// If letter guesses are exhausted, add to losses
