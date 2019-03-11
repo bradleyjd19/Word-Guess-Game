@@ -1,0 +1,30 @@
+*/ {
+  box-sizing: border-box;
+}
+
+body {
+  background-image: url("../Images/BL Background.jpg");
+  background-size: cover;
+  background-position: fixed;
+}
+
+#logo {
+  display: block;
+  margin: 0 auto;
+  width: 50%;
+}
+
+h1 {
+  text-align: center;
+  font-family: 'Sonsie One', cursive;
+  font-size: 2.5vw;
+}
+
+#currentWord,
+#guessedLetters,
+#gameEnd {
+  text-align: center;
+  font-family: 'Arbutus', cursive;
+  padding-top: 40px;
+}
+
